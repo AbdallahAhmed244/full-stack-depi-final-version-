@@ -701,10 +701,10 @@ public class AdminService : IAdminService
                         : u.FullName;
                     targetType = u.UserType switch
                     {
-                        UserType.FoodProvider => "جهة مانحة (Food Provider)",
-                        UserType.Charity => "جمعية خيرية (Charity)",
-                        UserType.Administrator => "مشرف نظام (Administrator)",
-                        _ => "مستخدم (User)"
+                        UserType.FoodProvider => "Food Provider",
+                        UserType.Charity => "Charity",
+                        UserType.Administrator => "Administrator",
+                        _ => "User"
                     };
                 }
             }
@@ -715,26 +715,26 @@ public class AdminService : IAdminService
                     targetName = !string.IsNullOrWhiteSpace(f.ProviderOrg)
                         ? $"{f.FoodName} — {f.ProviderOrg}"
                         : f.FoodName;
-                    targetType = "إدراج تبرع طعام (Food Listing)";
+                    targetType = "Food Listing";
                 }
             }
             else if (a.TargetEntity == "Reservation")
             {
                 if (int.TryParse(a.TargetId, out var rId) && reservationsDict.TryGetValue(rId, out var r))
                 {
-                    targetName = $"حجز: {r.FoodName} لصالح: {r.CharityName}";
-                    targetType = "حجز استلام (Reservation)";
+                    targetName = $"Reservation: {r.FoodName} for {r.CharityName}";
+                    targetType = "Reservation";
                 }
             }
             else if (a.TargetEntity == "System")
             {
-                targetName = a.TargetId == "MaintenanceMode" ? "نظام وضع الصيانة للمنصة" : "قاعدة بيانات المنصة والنظام";
-                targetType = "إعدادات النظام (System Core)";
+                targetName = a.TargetId == "MaintenanceMode" ? "Platform Maintenance Mode" : "Platform Core Database";
+                targetType = "System Core";
             }
             else if (a.TargetEntity == "Review")
             {
-                targetName = $"تقييم رقم #{a.TargetId}";
-                targetType = "تقييم جودة (Review)";
+                targetName = $"Review #{a.TargetId}";
+                targetType = "Review";
             }
 
             // Fallback: extract single-quoted entity name from Details if targetName wasn't resolved

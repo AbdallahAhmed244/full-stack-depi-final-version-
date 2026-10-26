@@ -1836,7 +1836,7 @@
                     <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
                         <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1">
                             <i class="fa-solid fa-user-shield text-indigo-500"></i>
-                            <span>منفذ الإجراء (Who)</span>
+                            <span data-i18n="auditModalWho">منفذ الإجراء (Who)</span>
                         </div>
                         <div id="auditModalAdminName" class="font-bold text-xs text-slate-800 dark:text-slate-100 truncate"></div>
                         <div id="auditModalAdminEmail" class="text-[10px] text-slate-400 font-mono truncate mt-0.5"></div>
@@ -1847,7 +1847,7 @@
                     <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
                         <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1">
                             <i class="fa-solid fa-bolt text-amber-500"></i>
-                            <span>نوع العملية (What)</span>
+                            <span data-i18n="auditModalWhat">نوع العملية (What)</span>
                         </div>
                         <div id="auditModalActionBadge" class="mt-0.5"></div>
                         <div id="auditModalActionRaw" class="text-[10px] text-slate-400 font-mono mt-1"></div>
@@ -1857,7 +1857,7 @@
                     <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
                         <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1">
                             <i class="fa-solid fa-bullseye text-rose-500"></i>
-                            <span>الطرف المستهدف (To Whom)</span>
+                            <span data-i18n="auditModalToWhom">الطرف المستهدف (To Whom)</span>
                         </div>
                         <div id="auditModalTargetName" class="font-bold text-xs text-slate-800 dark:text-slate-100 truncate"></div>
                         <div id="auditModalTargetType" class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5"></div>
@@ -1869,7 +1869,7 @@
                 <div id="auditModalReasonBox" class="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/50">
                     <div class="flex items-center gap-2 text-xs font-bold text-amber-800 dark:text-amber-200 mb-1">
                         <i class="fa-solid fa-quote-right text-amber-600"></i>
-                        <span>مبرر القرار وملاحظات الإجراء (Decision Reason)</span>
+                        <span data-i18n="auditModalReasonTitle">مبرر القرار وملاحظات الإجراء (Decision Reason)</span>
                     </div>
                     <p id="auditModalReasonText" class="text-xs text-amber-950 dark:text-amber-100 leading-relaxed font-medium whitespace-pre-line"></p>
                 </div>
@@ -1878,7 +1878,7 @@
                 <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
                     <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1 flex items-center gap-1.5">
                         <i class="fa-solid fa-file-lines text-slate-400"></i>
-                        <span>نص السجل الإداري المسجل بالنظام</span>
+                        <span data-i18n="auditModalLogText">نص السجل الإداري المسجل بالنظام</span>
                     </div>
                     <div id="auditModalFullDetails" class="text-xs text-slate-700 dark:text-slate-200 leading-relaxed whitespace-pre-line"></div>
                 </div>
@@ -1888,7 +1888,7 @@
                     <summary class="cursor-pointer font-bold text-slate-500 dark:text-slate-400 flex items-center justify-between select-none">
                         <span class="flex items-center gap-1.5">
                             <i class="fa-solid fa-code text-indigo-500"></i>
-                            <span>البيانات التقنية الكاملة (Raw JSON Payload)</span>
+                            <span data-i18n="auditModalRawJsonTitle">البيانات التقنية الكاملة (Raw JSON Payload)</span>
                         </span>
                         <i class="fa-solid fa-chevron-down text-[10px] transition group-open:rotate-180"></i>
                     </summary>
@@ -1900,9 +1900,9 @@
             <div class="flex items-center justify-between pt-4 mt-5 border-t border-slate-100 dark:border-slate-800">
                 <button onclick="copyAuditModalSummary()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition flex items-center gap-1.5">
                     <i class="fa-regular fa-copy"></i>
-                    <span>نسخ ملخص السجل</span>
+                    <span data-i18n="auditModalCopySummary">نسخ ملخص السجل</span>
                 </button>
-                <button onclick="closeAuditDetailModal()" class="px-5 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white transition">
+                <button onclick="closeAuditDetailModal()" class="px-5 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white transition" data-i18n="close">
                     إغلاق
                 </button>
             </div>

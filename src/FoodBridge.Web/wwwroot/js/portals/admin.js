@@ -719,12 +719,53 @@ function renderAdminAuditLogs() {
         const adminInitials = (l.adminName || 'AD').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
 
         const shortTargetId = l.targetId && l.targetId.length > 12 ? `${l.targetId.substring(0, 8)}...` : (l.targetId || 'N/A');
-        const targetTitle = l.targetName || `${l.targetEntity} #${shortTargetId}`;
+        let targetTitle = l.targetName || `${l.targetEntity} #${shortTargetId}`;
+        if (!isAr) {
+            if (targetTitle.includes('نظام وضع الصيانة') || l.targetId === 'MaintenanceMode') {
+                targetTitle = 'Platform Maintenance Mode';
+            } else if (targetTitle.includes('قاعدة بيانات المنصة')) {
+                targetTitle = 'Platform Core Database';
+            } else if (targetTitle.startsWith('حجز:')) {
+                targetTitle = targetTitle.replace('حجز:', 'Reservation:').replace('لصالح:', 'for:');
+            } else if (targetTitle.startsWith('تقييم رقم #')) {
+                targetTitle = targetTitle.replace('تقييم رقم #', 'Review #');
+            }
+        } else {
+            if (targetTitle === 'Platform Maintenance Mode' || targetTitle === 'Platform Maintenance System') {
+                targetTitle = 'نظام وضع الصيانة للمنصة';
+            } else if (targetTitle === 'Platform Core Database') {
+                targetTitle = 'قاعدة بيانات المنصة والنظام';
+            } else if (targetTitle.startsWith('Reservation:')) {
+                targetTitle = targetTitle.replace('Reservation:', 'حجز:').replace('for:', 'لصالح:');
+            } else if (targetTitle.startsWith('Review #')) {
+                targetTitle = targetTitle.replace('Review #', 'تقييم رقم #');
+            }
+        }
 
-        // Clean up target subtitle so no Arabic leaks into English
+        // Clean up target subtitle so no Arabic leaks into English and vice-versa
         let rawTargetType = l.targetType || l.targetEntity || '';
         let cleanTargetSubtitle = rawTargetType;
-        if (!isAr) {
+        if (isAr) {
+            if (rawTargetType.includes('Food Provider') || rawTargetType === 'Provider') {
+                cleanTargetSubtitle = 'مزود طعام';
+            } else if (rawTargetType.includes('Charity')) {
+                cleanTargetSubtitle = 'جمعية خيرية';
+            } else if (rawTargetType.includes('Administrator') || rawTargetType === 'Admin') {
+                cleanTargetSubtitle = 'مشرف نظام';
+            } else if (rawTargetType.includes('Food Listing')) {
+                cleanTargetSubtitle = 'إدراج تبرع طعام';
+            } else if (rawTargetType.includes('Reservation')) {
+                cleanTargetSubtitle = 'حجز استلام';
+            } else if (rawTargetType.includes('System Core') || rawTargetType === 'System') {
+                cleanTargetSubtitle = 'إعدادات النظام';
+            } else if (rawTargetType.includes('Review')) {
+                cleanTargetSubtitle = 'تقييم جودة';
+            } else if (rawTargetType.includes('User')) {
+                cleanTargetSubtitle = 'مستخدم';
+            } else if (rawTargetType.includes(' (')) {
+                cleanTargetSubtitle = rawTargetType.split(' (')[0];
+            }
+        } else {
             const m = rawTargetType.match(/\(([^)]+)\)/);
             if (m) {
                 cleanTargetSubtitle = m[1];
@@ -742,10 +783,6 @@ function renderAdminAuditLogs() {
                 cleanTargetSubtitle = 'Review';
             } else if (rawTargetType.includes('النظام')) {
                 cleanTargetSubtitle = 'System Core';
-            }
-        } else {
-            if (rawTargetType.includes(' (')) {
-                cleanTargetSubtitle = rawTargetType.split(' (')[0];
             }
         }
 
@@ -858,8 +895,71 @@ function openAuditDetailModal(index) {
     document.getElementById('auditModalActionRaw').textContent = `Raw Action: ${log.action}`;
 
     // Target Info
-    document.getElementById('auditModalTargetName').textContent = log.targetName || `${log.targetEntity} #${log.targetId}`;
-    document.getElementById('auditModalTargetType').textContent = isAr ? `الكيان: ${log.targetType || log.targetEntity}` : `Entity: ${log.targetType || log.targetEntity}`;
+    let modalTargetName = log.targetName || `${log.targetEntity} #${log.targetId}`;
+    let modalTargetType = log.targetType || log.targetEntity || '';
+    if (!isAr) {
+        if (modalTargetName.includes('نظام وضع الصيانة') || log.targetId === 'MaintenanceMode') {
+            modalTargetName = 'Platform Maintenance Mode';
+        } else if (modalTargetName.includes('قاعدة بيانات المنصة')) {
+            modalTargetName = 'Platform Core Database';
+        } else if (modalTargetName.startsWith('حجز:')) {
+            modalTargetName = modalTargetName.replace('حجز:', 'Reservation:').replace('لصالح:', 'for:');
+        } else if (modalTargetName.startsWith('تقييم رقم #')) {
+            modalTargetName = modalTargetName.replace('تقييم رقم #', 'Review #');
+        }
+
+        const m = modalTargetType.match(/\(([^)]+)\)/);
+        if (m) {
+            modalTargetType = m[1];
+        } else if (modalTargetType.includes('النظام')) {
+            modalTargetType = 'System Core';
+        } else if (modalTargetType.includes('مشرف')) {
+            modalTargetType = 'Administrator';
+        } else if (modalTargetType.includes('مانحة') || modalTargetType.includes('مورد')) {
+            modalTargetType = 'Food Provider';
+        } else if (modalTargetType.includes('جمعية')) {
+            modalTargetType = 'Charity';
+        } else if (modalTargetType.includes('إدراج')) {
+            modalTargetType = 'Food Listing';
+        } else if (modalTargetType.includes('حجز')) {
+            modalTargetType = 'Reservation';
+        } else if (modalTargetType.includes('تقييم')) {
+            modalTargetType = 'Review';
+        }
+    } else {
+        if (modalTargetName === 'Platform Maintenance Mode' || modalTargetName === 'Platform Maintenance System') {
+            modalTargetName = 'نظام وضع الصيانة للمنصة';
+        } else if (modalTargetName === 'Platform Core Database') {
+            modalTargetName = 'قاعدة بيانات المنصة والنظام';
+        } else if (modalTargetName.startsWith('Reservation:')) {
+            modalTargetName = modalTargetName.replace('Reservation:', 'حجز:').replace('for:', 'لصالح:');
+        } else if (modalTargetName.startsWith('Review #')) {
+            modalTargetName = modalTargetName.replace('Review #', 'تقييم رقم #');
+        }
+
+        if (modalTargetType.includes('Food Provider') || modalTargetType === 'Provider') {
+            modalTargetType = 'مزود طعام';
+        } else if (modalTargetType.includes('Charity')) {
+            modalTargetType = 'جمعية خيرية';
+        } else if (modalTargetType.includes('Administrator') || modalTargetType === 'Admin') {
+            modalTargetType = 'مشرف نظام';
+        } else if (modalTargetType.includes('Food Listing')) {
+            modalTargetType = 'إدراج تبرع طعام';
+        } else if (modalTargetType.includes('Reservation')) {
+            modalTargetType = 'حجز استلام';
+        } else if (modalTargetType.includes('System Core') || modalTargetType === 'System') {
+            modalTargetType = 'إعدادات النظام';
+        } else if (modalTargetType.includes('Review')) {
+            modalTargetType = 'تقييم جودة';
+        } else if (modalTargetType.includes('User')) {
+            modalTargetType = 'مستخدم';
+        } else if (modalTargetType.includes(' (')) {
+            modalTargetType = modalTargetType.split(' (')[0];
+        }
+    }
+
+    document.getElementById('auditModalTargetName').textContent = modalTargetName;
+    document.getElementById('auditModalTargetType').textContent = isAr ? `الكيان: ${modalTargetType}` : `Entity: ${modalTargetType}`;
     document.getElementById('auditModalTargetId').textContent = isAr ? `معرّف الكيان: #${log.targetId}` : `Target ID: #${log.targetId}`;
 
     // Reasons & Details
