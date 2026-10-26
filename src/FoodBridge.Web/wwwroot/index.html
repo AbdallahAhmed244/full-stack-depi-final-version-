@@ -960,7 +960,10 @@
 <div id="adminTabUsers" class="hidden">
                 <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-                        <input type="text" id="adminUserSearch" oninput="debounce(loadAdminUsers, 300)()" placeholder="Search users by name, email, organization..." data-i18n-placeholder="searchUsersPlaceholder" class="px-3.5 py-2 rounded-xl text-sm border border-slate-200 w-full sm:w-72">
+                        <div class="relative w-full sm:w-80">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 rtl:left-auto rtl:right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+                            <input type="text" id="adminUserSearch" oninput="handleAdminUserSearch()" onkeydown="if(event.key==='Enter') loadAdminUsers()" placeholder="Search users by name, email, organization..." data-i18n-placeholder="searchUsersPlaceholder" class="pl-9 pr-3.5 rtl:pr-9 rtl:pl-3.5 py-2 rounded-xl text-xs border border-slate-200 bg-white text-slate-800 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
                         <div class="flex items-center space-x-2 flex-wrap gap-2">
                             <select id="adminUserTypeFilter" onchange="loadAdminUsers()" class="px-3 py-2 rounded-xl text-xs border border-slate-200 bg-white">
                                 <option value="" data-i18n="allAccountTypes">All Account Types</option>
@@ -972,6 +975,7 @@
                                 <option value="" data-i18n="allStatuses">All Statuses</option>
                                 <option value="Active" data-i18n="statusActive">Active</option>
                                 <option value="Suspended" data-i18n="statusSuspended">Suspended</option>
+                                <option value="locked" data-i18n="filterLockedUsers">🔒 Locked (Failed Passwords)</option>
                             </select>
                             <button onclick="openCreateAdminModal()" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold flex items-center shadow-sm shrink-0 transition">
                                 <i class="fa-solid fa-user-shield mr-1.5"></i> <span data-i18n="btnAddAdmin">+ Add Admin</span>
@@ -1062,17 +1066,17 @@
 
                         <!-- Category Filter Pills -->
                         <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 text-xs shrink-0">
-                            <button onclick="filterAuditLogs('all')" id="auditFilterBtn-all" class="audit-filter-pill px-3 py-1.5 rounded-xl font-bold bg-indigo-600 text-white shadow-xs transition shrink-0">الكل</button>
-                            <button onclick="filterAuditLogs('users')" id="auditFilterBtn-users" class="audit-filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition shrink-0">الحسابات والتجميد</button>
-                            <button onclick="filterAuditLogs('verifications')" id="auditFilterBtn-verifications" class="audit-filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition shrink-0">التوثيقات</button>
-                            <button onclick="filterAuditLogs('content')" id="auditFilterBtn-content" class="audit-filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition shrink-0">المحتوى والتبرعات</button>
-                            <button onclick="filterAuditLogs('waste')" id="auditFilterBtn-waste" class="audit-filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition shrink-0">الهدر والإتلاف</button>
-                            <button onclick="filterAuditLogs('system')" id="auditFilterBtn-system" class="audit-filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition shrink-0">الأمان والنظام</button>
+                            <button onclick="filterAuditLogs('all')" id="auditFilterBtn-all" class="audit-filter-pill px-3 py-1.5 rounded-xl font-bold bg-indigo-600 text-white shadow-xs transition shrink-0" data-i18n="auditFilterAll">الكل</button>
+                            <button onclick="filterAuditLogs('users')" id="auditFilterBtn-users" class="audit-filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition shrink-0" data-i18n="auditFilterUsers">الحسابات والتجميد</button>
+                            <button onclick="filterAuditLogs('verifications')" id="auditFilterBtn-verifications" class="audit-filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition shrink-0" data-i18n="auditFilterVerifications">التوثيقات</button>
+                            <button onclick="filterAuditLogs('content')" id="auditFilterBtn-content" class="audit-filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition shrink-0" data-i18n="auditFilterContent">المحتوى والتبرعات</button>
+                            <button onclick="filterAuditLogs('waste')" id="auditFilterBtn-waste" class="audit-filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition shrink-0" data-i18n="auditFilterWaste">الهدر والإتلاف</button>
+                            <button onclick="filterAuditLogs('system')" id="auditFilterBtn-system" class="audit-filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition shrink-0" data-i18n="auditFilterSystem">الأمان والنظام</button>
                         </div>
                     </div>
 
                     <div class="overflow-x-auto rounded-xl border border-slate-100 dark:border-slate-700/60">
-                        <table class="w-full text-right text-sm text-slate-600 dark:text-slate-300">
+                        <table class="w-full ltr:text-left rtl:text-right text-sm text-slate-600 dark:text-slate-300">
                             <thead class="bg-slate-50 dark:bg-slate-900/60 text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-700">
                                 <tr>
                                     <th class="px-4 py-3" data-i18n="thTimestamp">التوقيت</th>

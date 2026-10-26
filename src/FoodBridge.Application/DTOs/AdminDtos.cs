@@ -39,6 +39,9 @@ public class AdminUserListItemDto
     public DateTimeOffset CreatedAt { get; set; }
     public int ActiveItemsCount { get; set; }
     public int CompletedItemsCount { get; set; }
+    public int AccessFailedCount { get; set; }
+    public bool IsLockedOut { get; set; }
+    public DateTimeOffset? LockoutEnd { get; set; }
 }
 
 public class AdminUserFilterDto
@@ -47,6 +50,7 @@ public class AdminUserFilterDto
     public bool? IsVerified { get; set; }
     public UserStatus? Status { get; set; }
     public string? SearchTerm { get; set; }
+    public bool? LockedOnly { get; set; }
 }
 
 public class ModerationActionDto

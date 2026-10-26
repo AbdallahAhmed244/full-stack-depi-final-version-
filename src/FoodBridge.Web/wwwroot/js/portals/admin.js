@@ -128,9 +128,17 @@ async function verifyOrganization(userId, isApproved) {
     }
 }
 
+let adminUserSearchTimer = null;
+function handleAdminUserSearch() {
+    clearTimeout(adminUserSearchTimer);
+    adminUserSearchTimer = setTimeout(() => {
+        loadAdminUsers();
+    }, 250);
+}
+
 async function loadAdminUsers() {
     if (!currentUser) return;
-    const search = document.getElementById('adminUserSearch')?.value || '';
+    const search = document.getElementById('adminUserSearch')?.value?.trim() || '';
     const userType = document.getElementById('adminUserTypeFilter')?.value || '';
     const status = document.getElementById('adminUserStatusFilter')?.value || '';
     const tbody = document.getElementById('adminUsersTableBody');
@@ -140,7 +148,11 @@ async function loadAdminUsers() {
     const params = new URLSearchParams();
     if (search) params.append('searchTerm', search);
     if (userType) params.append('userType', userType);
-    if (status) params.append('status', status);
+    if (status === 'locked') {
+        params.append('lockedOnly', 'true');
+    } else if (status) {
+        params.append('status', status);
+    }
 
     try {
         const res = await fetch(`${API_BASE}/admin/users?${params.toString()}`, {
@@ -148,31 +160,73 @@ async function loadAdminUsers() {
         });
         const users = await res.json();
 
+        if (!users || users.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="px-4 py-12 text-center text-slate-400 dark:text-slate-500">
+                        <i class="fa-solid fa-user-slash text-2xl mb-2 block"></i>
+                        <span>${isAr ? 'لا يوجد مستخدمون مطابقون للبحث الحالي.' : 'No users match the current search criteria.'}</span>
+                    </td>
+                </tr>`;
+            return;
+        }
+
         tbody.innerHTML = users.map(u => {
             const isSuspended = u.status === 2 || u.status === 'Suspended';
-            const statusBadge = isSuspended ? 'bg-rose-100 text-rose-800' : 'bg-emerald-100 text-emerald-800';
+            const isCurrentlyLocked = u.isLockedOut || u.accessFailedCount >= 10;
+            const hadLockout = !!u.lockoutEnd;
+
+            const statusBadge = isSuspended 
+                ? (isCurrentlyLocked ? 'bg-rose-600 text-white font-black' : 'bg-rose-100 text-rose-800') 
+                : (isCurrentlyLocked ? 'bg-rose-500 text-white font-black' : 'bg-emerald-100 text-emerald-800');
             const verifiedBadge = u.isVerified ? `<span class="text-emerald-600"><i class="fa-solid fa-circle-check"></i> ${isAr ? 'موثق' : 'Verified'}</span>` : `<span class="text-amber-500"><i class="fa-solid fa-clock"></i> ${isAr ? 'معلق' : 'Pending'}</span>`;
+
+            let secBadge = '';
+            if (isCurrentlyLocked) {
+                secBadge = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800 animate-pulse" title="${isAr ? 'تم قفل الحساب بسبب تكرار كلمة السر الخاطئة' : 'Account locked due to consecutive failed password attempts'}"><i class="fa-solid fa-lock text-[9px]"></i>${isAr ? '🔒 مقفول أمنياً (كلمة سر)' : '🔒 Locked Out (Password Failures)'}</span>`;
+            } else if (hadLockout) {
+                secBadge = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-800" title="${isAr ? 'سجل قفل أمني سابق لمحاولات تسجيل خاطئة' : 'Prior security lockout for failed password attempts'}"><i class="fa-solid fa-shield-halved text-[9px]"></i>${isAr ? '🔒 سجل قفل أمني' : '🔒 Prior Password Lockout'}</span>`;
+            } else if (u.accessFailedCount > 0) {
+                secBadge = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700" title="${isAr ? 'محاولات باسورد فاشلة' : 'Failed password attempts'}"><i class="fa-solid fa-key text-[9px]"></i>${u.accessFailedCount} ${isAr ? 'محاولات فاشلة' : 'Failed Attempts'}</span>`;
+            }
 
             let toggleAction = '';
             if (currentUser && (u.id === currentUser.userId || u.email === currentUser.email)) {
                 toggleAction = `<span class="text-xs text-slate-400 italic">${isAr ? 'حسابك الحالي' : 'Current Account'}</span>`;
             } else if (isSuspended) {
-                toggleAction = `<button onclick="setUserStatus('${u.id}', false)" class="px-2.5 py-1 text-xs rounded-lg text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200">${dict.reactivate}</button>`;
+                toggleAction = `<button onclick="setUserStatus('${u.id}', false)" class="px-2.5 py-1 text-xs font-semibold rounded-lg text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 transition shadow-sm inline-flex items-center"><i class="fa-solid fa-lock-open mr-1"></i>${isAr ? 'إلغاء الحظر والتفعيل' : 'Unblock & Activate'}</button>`;
+            } else if (isCurrentlyLocked || hadLockout || u.accessFailedCount > 0) {
+                toggleAction = `
+                    <div class="flex items-center gap-1.5 ${isAr ? 'justify-start' : 'justify-end'}">
+                        <button onclick="setUserStatus('${u.id}', true)" class="px-2.5 py-1 text-xs font-semibold rounded-lg text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-300 transition shadow-sm inline-flex items-center" title="${isAr ? 'حظر هذا الحساب' : 'Block / Suspend account'}">
+                            <i class="fa-solid fa-ban mr-1"></i>${isAr ? 'حظر (بلوك)' : 'Block'}
+                        </button>
+                        <button onclick="setUserStatus('${u.id}', false)" class="px-2.5 py-1 text-xs font-semibold rounded-lg text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 transition shadow-sm inline-flex items-center" title="${isAr ? 'إلغاء القفل وتصفير عداد المحاولات' : 'Reset lockout and failed attempts'}">
+                            <i class="fa-solid fa-lock-open mr-1"></i>${isAr ? 'إلغاء القفل' : 'Unlock'}
+                        </button>
+                    </div>
+                `;
             } else {
-                toggleAction = `<button onclick="setUserStatus('${u.id}', true)" class="px-2.5 py-1 text-xs rounded-lg text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200">${dict.suspend}</button>`;
+                toggleAction = `<button onclick="setUserStatus('${u.id}', true)" class="px-2.5 py-1 text-xs font-semibold rounded-lg text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition inline-flex items-center"><i class="fa-solid fa-ban mr-1"></i>${dict.suspend}</button>`;
             }
 
             const uTypeName = u.userType === 1 ? (isAr ? 'مزود طعام' : 'Provider') : u.userType === 2 ? (isAr ? 'جمعية خيرية' : 'Charity') : (isAr ? 'مشرف' : 'Admin');
+            const displayStatus = isCurrentlyLocked 
+                ? (isAr ? 'مقفول أمنياً' : 'Locked Out')
+                : (isSuspended ? (isAr ? 'مجمّد' : 'Suspended') : (isAr ? 'نشط' : 'Active'));
 
             return `
                 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
                     <td class="px-4 py-3">
-                        <div class="font-bold text-slate-800 dark:text-slate-100">${escapeHtml(u.organizationName)}</div>
-                        <div class="text-xs text-slate-500">${escapeHtml(u.fullName)} • ${escapeHtml(u.email)}</div>
+                        <div class="flex items-center flex-wrap gap-1.5">
+                            <span class="font-bold text-slate-800 dark:text-slate-100">${escapeHtml(u.organizationName)}</span>
+                            ${secBadge}
+                        </div>
+                        <div class="text-xs text-slate-500">${escapeHtml(u.fullName)} • <span class="font-mono text-slate-700 dark:text-slate-300 font-medium">${escapeHtml(u.email)}</span></div>
                     </td>
                     <td class="px-4 py-3 text-xs font-semibold text-slate-600 dark:text-slate-300">${uTypeName} (${escapeHtml(u.specificType)})</td>
                     <td class="px-4 py-3 text-xs font-semibold">${verifiedBadge}</td>
-                    <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs font-bold ${statusBadge}">${isSuspended ? (isAr ? 'مجمّد' : 'Suspended') : (isAr ? 'نشط' : 'Active')}</span></td>
+                    <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs font-bold ${statusBadge}">${displayStatus}</span></td>
                     <td class="px-4 py-3 ${isAr ? 'text-left' : 'text-right'}">${toggleAction}</td>
                 </tr>
             `;
@@ -192,7 +246,7 @@ async function setUserStatus(userId, suspend) {
             : 'Enter suspension reason (will be displayed to the user when logging in):');
         if (reason === null) return;
     } else {
-        if (!confirm(isAr ? 'هل أنت متأكد من إعادة تفعيل هذا الحساب؟' : 'Reactivate this account?')) return;
+        if (!confirm(isAr ? 'هل أنت متأكد من إعادة تفعيل هذا الحساب وإلغاء قفله الأمني؟' : 'Reactivate this account and unlock password attempts?')) return;
     }
 
     try {
@@ -204,7 +258,7 @@ async function setUserStatus(userId, suspend) {
         if (res.ok) {
             showToast(
                 isAr ? 'تم تحديث حالة الحساب' : 'Account Status Updated',
-                suspend ? (isAr ? 'تم تعليق الحساب وحفظ السبب.' : 'User suspended.') : (isAr ? 'تمت إعادة تفعيل الحساب بنجاح.' : 'User reactivated.'),
+                suspend ? (isAr ? 'تم تعليق الحساب وحفظ السبب.' : 'User suspended.') : (isAr ? 'تمت إعادة تفعيل الحساب وإلغاء القفل الأمني بنجاح.' : 'User reactivated and unlocked successfully.'),
                 'info'
             );
             loadAdminUsers();
@@ -656,7 +710,6 @@ function renderAdminAuditLogs() {
         };
 
         const actionTitle = isAr ? conf.ar : conf.en;
-        const actionSubtitle = isAr ? conf.en : conf.ar;
 
         const dateObj = new Date(l.timestamp);
         const dateStr = dateObj.toLocaleDateString(isAr ? 'ar-EG' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -667,63 +720,92 @@ function renderAdminAuditLogs() {
 
         const shortTargetId = l.targetId && l.targetId.length > 12 ? `${l.targetId.substring(0, 8)}...` : (l.targetId || 'N/A');
         const targetTitle = l.targetName || `${l.targetEntity} #${shortTargetId}`;
-        const targetSubtitle = l.targetType || l.targetEntity;
+
+        // Clean up target subtitle so no Arabic leaks into English
+        let rawTargetType = l.targetType || l.targetEntity || '';
+        let cleanTargetSubtitle = rawTargetType;
+        if (!isAr) {
+            const m = rawTargetType.match(/\(([^)]+)\)/);
+            if (m) {
+                cleanTargetSubtitle = m[1];
+            } else if (rawTargetType.includes('مشرف')) {
+                cleanTargetSubtitle = 'Administrator';
+            } else if (rawTargetType.includes('مانحة') || rawTargetType.includes('مورد')) {
+                cleanTargetSubtitle = 'Food Provider';
+            } else if (rawTargetType.includes('جمعية')) {
+                cleanTargetSubtitle = 'Charity';
+            } else if (rawTargetType.includes('إدراج')) {
+                cleanTargetSubtitle = 'Food Listing';
+            } else if (rawTargetType.includes('حجز')) {
+                cleanTargetSubtitle = 'Reservation';
+            } else if (rawTargetType.includes('تقييم')) {
+                cleanTargetSubtitle = 'Review';
+            } else if (rawTargetType.includes('النظام')) {
+                cleanTargetSubtitle = 'System Core';
+            }
+        } else {
+            if (rawTargetType.includes(' (')) {
+                cleanTargetSubtitle = rawTargetType.split(' (')[0];
+            }
+        }
 
         const parsed = parseAuditLogReason(l.details);
+        const textDir = isAr ? 'text-right' : 'text-left';
+        const flexDir = isAr ? 'justify-end' : 'justify-start';
 
         return `
             <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/60 transition group cursor-pointer" onclick="openAuditDetailModal(${index})">
                 <!-- Timestamp -->
-                <td class="px-4 py-3 whitespace-nowrap text-right">
+                <td class="px-4 py-3 whitespace-nowrap ${textDir}">
                     <div class="font-bold text-slate-700 dark:text-slate-200 text-xs">${dateStr}</div>
-                    <div class="text-[11px] text-slate-400 dark:text-slate-500 font-mono flex items-center gap-1 justify-end mt-0.5">
+                    <div class="text-[11px] text-slate-400 dark:text-slate-500 font-mono flex items-center gap-1 ${flexDir} mt-0.5">
                         <i class="fa-regular fa-clock text-[10px]"></i>
                         <span>${timeStr}</span>
                     </div>
                 </td>
 
                 <!-- Actor / Admin -->
-                <td class="px-4 py-3 text-right">
-                    <div class="flex items-center gap-2 justify-end">
-                        <div class="text-right">
-                            <div class="font-bold text-slate-800 dark:text-slate-100 text-xs flex items-center gap-1.5 justify-end">
+                <td class="px-4 py-3 ${textDir}">
+                    <div class="flex items-center gap-2 ${flexDir}">
+                        <div class="w-8 h-8 rounded-xl ${isAutoSecurity ? 'bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300' : 'bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300'} flex items-center justify-center font-bold text-xs shrink-0 shadow-xs order-${isAr ? '2' : '1'}">
+                            ${isAutoSecurity ? '<i class="fa-solid fa-robot"></i>' : adminInitials}
+                        </div>
+                        <div class="${textDir} order-${isAr ? '1' : '2'}">
+                            <div class="font-bold text-slate-800 dark:text-slate-100 text-xs flex items-center gap-1.5 ${flexDir}">
                                 <span>${escapeHtml(l.adminName)}</span>
                                 ${isAutoSecurity ? '<span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">BOT</span>' : ''}
                             </div>
                             ${l.adminEmail ? `<div class="text-[10px] text-slate-400 font-mono">${escapeHtml(l.adminEmail)}</div>` : ''}
                             ${l.adminRole && !isAutoSecurity ? `<span class="inline-block mt-0.5 px-1.5 py-0.5 rounded text-[9px] font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">${escapeHtml(l.adminRole)}</span>` : ''}
                         </div>
-                        <div class="w-8 h-8 rounded-xl ${isAutoSecurity ? 'bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300' : 'bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300'} flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
-                            ${isAutoSecurity ? '<i class="fa-solid fa-robot"></i>' : adminInitials}
-                        </div>
                     </div>
                 </td>
 
                 <!-- Action Type -->
-                <td class="px-4 py-3 whitespace-nowrap text-right">
+                <td class="px-4 py-3 whitespace-nowrap ${textDir}">
                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold ${conf.badgeClass} shadow-xs">
                         <i class="${conf.icon} text-xs"></i>
                         <span>${escapeHtml(actionTitle)}</span>
                     </span>
-                    <div class="text-[10px] text-slate-400 font-mono mt-0.5">${escapeHtml(actionSubtitle)}</div>
+                    ${isAr && conf.en !== conf.ar ? `<div class="text-[10px] text-slate-400 font-mono mt-0.5">${escapeHtml(conf.en)}</div>` : ''}
                 </td>
 
                 <!-- Target Entity (To Whom) -->
-                <td class="px-4 py-3 text-right min-w-[180px]">
+                <td class="px-4 py-3 ${textDir} min-w-[180px]">
                     <div class="font-bold text-slate-800 dark:text-slate-100 text-xs">${escapeHtml(targetTitle)}</div>
-                    <div class="flex items-center gap-1.5 justify-end mt-0.5">
-                        <span class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">${escapeHtml(targetSubtitle)}</span>
+                    <div class="flex items-center gap-1.5 ${flexDir} mt-0.5">
+                        <span class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">${escapeHtml(cleanTargetSubtitle)}</span>
                         <span class="text-[10px] font-mono text-slate-400">#${escapeHtml(shortTargetId)}</span>
                     </div>
                 </td>
 
                 <!-- Details & Reasoning -->
-                <td class="px-4 py-3 text-right max-w-sm">
+                <td class="px-4 py-3 ${textDir} max-w-sm">
                     <div class="text-xs text-slate-700 dark:text-slate-200 leading-snug line-clamp-2">${escapeHtml(parsed.main || l.details)}</div>
                     ${parsed.reason ? `
-                        <div class="mt-1 p-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-800/40 text-[11px] text-amber-900 dark:text-amber-200 flex items-start gap-1 justify-end">
-                            <span class="line-clamp-2 text-right"><strong class="font-bold">${isAr ? 'المبرر:' : 'Reason:'}</strong> ${escapeHtml(parsed.reason)}</span>
-                            <i class="fa-solid fa-quote-right text-amber-600 text-[10px] mt-0.5 shrink-0"></i>
+                        <div class="mt-1 p-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-800/40 text-[11px] text-amber-900 dark:text-amber-200 flex items-start gap-1 ${flexDir}">
+                            <i class="fa-solid fa-quote-${isAr ? 'right' : 'left'} text-amber-600 text-[10px] mt-0.5 shrink-0"></i>
+                            <span class="line-clamp-2 ${textDir}"><strong class="font-bold">${isAr ? 'المبرر:' : 'Reason:'}</strong> ${escapeHtml(parsed.reason)}</span>
                         </div>
                     ` : ''}
                 </td>
@@ -777,8 +859,8 @@ function openAuditDetailModal(index) {
 
     // Target Info
     document.getElementById('auditModalTargetName').textContent = log.targetName || `${log.targetEntity} #${log.targetId}`;
-    document.getElementById('auditModalTargetType').textContent = `الكيان: ${log.targetType || log.targetEntity}`;
-    document.getElementById('auditModalTargetId').textContent = `معرّف الكيان: #${log.targetId}`;
+    document.getElementById('auditModalTargetType').textContent = isAr ? `الكيان: ${log.targetType || log.targetEntity}` : `Entity: ${log.targetType || log.targetEntity}`;
+    document.getElementById('auditModalTargetId').textContent = isAr ? `معرّف الكيان: #${log.targetId}` : `Target ID: #${log.targetId}`;
 
     // Reasons & Details
     const parsed = parseAuditLogReason(log.details);

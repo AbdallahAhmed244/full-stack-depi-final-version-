@@ -187,12 +187,15 @@ public class AuthService : IAuthService
         if (!passwordValid)
         {
             await _userManager.AccessFailedAsync(user);
+            var isLocked = await _userManager.IsLockedOutAsync(user);
             var failedCount = await _userManager.GetAccessFailedCountAsync(user);
 
-            if (failedCount >= 10)
+            if (isLocked)
             {
-                user.Status = UserStatus.Suspended;
-                await _userManager.UpdateAsync(user);
+                var lockoutEnd = await _userManager.GetLockoutEndDateAsync(user);
+                var remainingMinutes = lockoutEnd.HasValue 
+                    ? Math.Max(1, (int)Math.Ceiling((lockoutEnd.Value - DateTimeOffset.UtcNow).TotalMinutes)) 
+                    : 15;
 
                 var securityAudit = new AuditLog
                 {
@@ -200,22 +203,16 @@ public class AuthService : IAuthService
                     Action = "AutoSecuritySuspension",
                     TargetEntity = "ApplicationUser",
                     TargetId = user.Id,
-                    Details = $"Account '{user.Email}' was automatically suspended after 10 failed login attempts (Potential Brute-force attack). Requires Administrator review to reactivate.",
+                    Details = $"Account '{user.Email}' ({user.OrganizationName}) was locked out for 15 minutes after 10 failed login attempts (Brute-force protection).",
                     Timestamp = DateTimeOffset.UtcNow
                 };
                 _context.AuditLogs.Add(securityAudit);
                 await _context.SaveChangesAsync();
 
-                var autoReason = "تم تعليق الحساب تلقائياً لأسباب أمنية بعد 10 محاولات دخول غير صحيحة متتالية (Security alert: 10 failed login attempts).";
-                return Result<AuthResponseDto>.Failure($"SUSPENDED||{autoReason}||ahlawy.ahmed25@gmail.com||{user.FullName}||{user.OrganizationName}||{DateTimeOffset.UtcNow:o}");
+                return Result<AuthResponseDto>.Failure($"Account has been locked for {remainingMinutes} minutes due to 10 consecutive failed login attempts.");
             }
 
-            if (await _userManager.IsLockedOutAsync(user))
-            {
-                return Result<AuthResponseDto>.Failure("Account has been locked for 15 minutes due to 5 consecutive failed login attempts.");
-            }
-
-            var remaining = Math.Max(0, 5 - (failedCount % 5 == 0 ? 5 : failedCount % 5));
+            var remaining = Math.Max(0, 10 - failedCount);
             return Result<AuthResponseDto>.Failure($"Invalid email or password. ({remaining} attempts remaining before temporary account lockout)");
         }
 

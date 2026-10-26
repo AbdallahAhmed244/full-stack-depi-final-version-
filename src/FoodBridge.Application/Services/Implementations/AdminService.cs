@@ -100,12 +100,18 @@ public class AdminService : IAdminService
             query = query.Where(u => u.Status == filter.Status.Value);
         }
 
+        if (filter.LockedOnly == true)
+        {
+            query = query.Where(u => u.AccessFailedCount > 0 || u.LockoutEnd != null);
+        }
+
         if (!string.IsNullOrWhiteSpace(filter.SearchTerm))
         {
-            var term = filter.SearchTerm.Trim().ToLower();
-            query = query.Where(u => u.FullName.ToLower().Contains(term)
-                || (u.Email != null && u.Email.ToLower().Contains(term))
-                || u.OrganizationName.ToLower().Contains(term));
+            var term = filter.SearchTerm.Trim();
+            query = query.Where(u => (u.FullName != null && u.FullName.Contains(term))
+                || (u.Email != null && u.Email.Contains(term))
+                || (u.OrganizationName != null && u.OrganizationName.Contains(term))
+                || (u.SpecificType != null && u.SpecificType.Contains(term)));
         }
 
         var users = await query.OrderByDescending(u => u.CreatedAt).ToListAsync();
@@ -128,7 +134,10 @@ public class AdminService : IAdminService
                 : u.Reservations.Count(r => r.Status == ReservationStatus.Accepted || r.Status == ReservationStatus.ReadyForPickup),
             CompletedItemsCount = u.UserType == UserType.FoodProvider
                 ? u.FoodListings.Count(l => l.Status == FoodListingStatus.Completed)
-                : u.Reservations.Count(r => r.Status == ReservationStatus.Completed)
+                : u.Reservations.Count(r => r.Status == ReservationStatus.Completed),
+            AccessFailedCount = u.AccessFailedCount,
+            LockoutEnd = u.LockoutEnd,
+            IsLockedOut = (u.LockoutEnd.HasValue && u.LockoutEnd.Value > DateTimeOffset.UtcNow) || u.AccessFailedCount >= 10
         }).ToList();
     }
 

@@ -36,7 +36,7 @@ public static class DependencyInjection
             options.SignIn.RequireConfirmedEmail = true;
 
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
-            options.Lockout.MaxFailedAccessAttempts = 5;
+            options.Lockout.MaxFailedAccessAttempts = 10;
             options.Lockout.AllowedForNewUsers = true;
         })
         .AddEntityFrameworkStores<FoodBridgeDbContext>()

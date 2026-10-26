@@ -1,0 +1,406 @@
+﻿==========================================================
+       FOODBRIDGE ACTIVITY & AUDIT LOG REPORT
+ Generated At: 2026-10-26 16:29:10
+ Total Actions: 100
+==========================================================
+
+[2026-10-26 16:19:36 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: b6f0b464-a5c9-4c4c-9d96-632beededdf4)
+Details: User 'abdallah sharaf' (FoodBridge Platform Administration) was suspended. Reason: ووو
+----------------------------------------------------------
+[2026-10-26 12:37:38 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: b6f0b464-a5c9-4c4c-9d96-632beededdf4)
+Details: User 'abdallah sharaf' (FoodBridge Platform Administration) was reactivated.
+----------------------------------------------------------
+[2026-10-26 12:35:12 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: b6f0b464-a5c9-4c4c-9d96-632beededdf4)
+Details: User 'abdallah sharaf' (FoodBridge Platform Administration) was suspended. Reason: hhhhh
+----------------------------------------------------------
+[2026-10-26 12:20:31 +00:00] Action: CreateAdmin
+Target: ApplicationUser (ID: b6f0b464-a5c9-4c4c-9d96-632beededdf4)
+Details: Administrator created new admin account for 'abdallah sharaf' (abdallah@gmail.com) - Department/Role: المشرف الاكبر
+----------------------------------------------------------
+[2026-10-26 12:18:51 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: 92928a87-f55f-4a50-a860-4a9141a185cb)
+Details: User 'abdallah' (aa) was suspended. Reason: انك تستهبل
+----------------------------------------------------------
+[2026-10-26 12:18:14 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: 92928a87-f55f-4a50-a860-4a9141a185cb)
+Details: User 'abdallah' (aa) was reactivated.
+----------------------------------------------------------
+[2026-10-24 21:55:13 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: 92928a87-f55f-4a50-a860-4a9141a185cb)
+Details: User 'abdallah' (aa) was suspended. Reason: سسس
+----------------------------------------------------------
+[2026-10-24 21:32:09 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: 7539fba2-f9f2-432a-9061-30cf8cf63664)
+Details: User 'abdallah sharaf' (NTI) was reactivated.
+----------------------------------------------------------
+[2026-10-24 21:32:07 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: 5e8a22e2-fd86-4246-b4dd-3c0ba09284b8)
+Details: User 'abdallah sharaf' (NTI) was reactivated.
+----------------------------------------------------------
+[2026-10-24 21:32:04 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: 045b21e8-e4cf-4e5b-a8df-8e0f73f308ec)
+Details: User 'Tariq Mahmoud' (FoodBridge Platform Administration) was suspended.
+----------------------------------------------------------
+[2026-10-24 21:32:02 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: b926e509-ad4c-45cf-98a9-89d3d3e9b80f)
+Details: User 'abdallah sharaf' (NTI) was reactivated.
+----------------------------------------------------------
+[2026-10-24 21:32:00 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: 92928a87-f55f-4a50-a860-4a9141a185cb)
+Details: User 'abdallah' (aa) was reactivated.
+----------------------------------------------------------
+[2026-10-24 21:31:58 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: b8cee188-8887-4e0f-b12c-305c2ee0313b)
+Details: User 'Test Chef 5990' (Test Kitchen 5990) was reactivated.
+----------------------------------------------------------
+[2026-10-24 21:31:55 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: d126d7ce-3a89-4e31-836d-e789bd819128)
+Details: User 'omar' (iti) was reactivated.
+----------------------------------------------------------
+[2026-10-24 21:29:48 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-24 21:29:42 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: d126d7ce-3a89-4e31-836d-e789bd819128)
+Details: User 'omar' (iti) was suspended. Reason: بتستهبل
+----------------------------------------------------------
+[2026-10-24 21:29:25 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-24 21:15:52 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-24 21:11:11 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: d126d7ce-3a89-4e31-836d-e789bd819128)
+Details: User 'omar' (iti) was reactivated.
+----------------------------------------------------------
+[2026-10-24 21:07:18 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: 110ce996-162b-4701-b968-71c28ca5246d)
+Details: User 'Chef Mario Rossi' (Bella Italia Ristorante) was suspended.
+----------------------------------------------------------
+[2026-10-24 21:07:16 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: c63004e9-8326-40ff-b382-eadce2c34d14)
+Details: User 'Laila El-Sayed' (Hope Community Food Bank) was suspended.
+----------------------------------------------------------
+[2026-10-24 21:07:11 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: b926e509-ad4c-45cf-98a9-89d3d3e9b80f)
+Details: User 'abdallah sharaf' (NTI) was suspended.
+----------------------------------------------------------
+[2026-10-24 21:06:34 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: b926e509-ad4c-45cf-98a9-89d3d3e9b80f)
+Details: User 'abdallah sharaf' (NTI) was reactivated.
+----------------------------------------------------------
+[2026-10-24 21:06:22 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: b926e509-ad4c-45cf-98a9-89d3d3e9b80f)
+Details: User 'abdallah sharaf' (NTI) was suspended.
+----------------------------------------------------------
+[2026-10-24 21:06:19 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: b926e509-ad4c-45cf-98a9-89d3d3e9b80f)
+Details: User 'abdallah sharaf' (NTI) was reactivated.
+----------------------------------------------------------
+[2026-10-24 21:05:10 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-24 21:02:44 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-24 21:02:23 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: b926e509-ad4c-45cf-98a9-89d3d3e9b80f)
+Details: User 'abdallah sharaf' (NTI) was suspended.
+----------------------------------------------------------
+[2026-10-24 21:02:20 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: 5e8a22e2-fd86-4246-b4dd-3c0ba09284b8)
+Details: User 'abdallah sharaf' (NTI) was suspended.
+----------------------------------------------------------
+[2026-10-24 20:43:55 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: 7539fba2-f9f2-432a-9061-30cf8cf63664)
+Details: User 'abdallah sharaf' (NTI) was suspended.
+----------------------------------------------------------
+[2026-10-24 20:43:51 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: 92928a87-f55f-4a50-a860-4a9141a185cb)
+Details: User 'abdallah' (aa) was suspended.
+----------------------------------------------------------
+[2026-10-24 20:43:46 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: d126d7ce-3a89-4e31-836d-e789bd819128)
+Details: User 'omar' (iti) was suspended.
+----------------------------------------------------------
+[2026-10-24 20:32:15 +00:00] Action: WarnProviderFoodWaste
+Target: FoodListing (ID: 2008)
+Details: Official advisory sent to provider for expired surplus 'عبدالله ' (60.00 60). Notes: حررررام
+----------------------------------------------------------
+[2026-10-24 20:32:07 +00:00] Action: WarnProviderFoodWaste
+Target: FoodListing (ID: 2007)
+Details: Official advisory sent to provider for expired surplus 'sssssssssssssssssssss' (2222.00 3333). Notes: اي يعم
+----------------------------------------------------------
+[2026-10-23 02:42:05 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: b926e509-ad4c-45cf-98a9-89d3d3e9b80f)
+Details: User 'abdallah sharaf' (NTI) was reactivated.
+----------------------------------------------------------
+[2026-10-23 02:40:59 +00:00] Action: WarnProviderFoodWaste
+Target: FoodListing (ID: 2004)
+Details: Official advisory sent to provider for expired surplus 'اي حاجه' (22.00 222). Notes: انت بتستهبل
+----------------------------------------------------------
+[2026-10-23 02:35:07 +00:00] Action: ApproveVerification
+Target: ApplicationUser (ID: 811e5d5a-e32d-4aa8-8f7a-a51c44d25aec)
+Details: Organization 'The Bakery Studio' verification approved.
+----------------------------------------------------------
+[2026-10-23 02:33:37 +00:00] Action: ApproveVerification
+Target: ApplicationUser (ID: 92928a87-f55f-4a50-a860-4a9141a185cb)
+Details: Organization 'aa' verification approved.
+----------------------------------------------------------
+[2026-10-23 02:29:46 +00:00] Action: ApproveVerification
+Target: ApplicationUser (ID: d126d7ce-3a89-4e31-836d-e789bd819128)
+Details: Organization 'iti' verification approved.
+----------------------------------------------------------
+[2026-10-23 02:26:47 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-23 02:25:02 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-23 02:24:39 +00:00] Action: ReactivateUser
+Target: ApplicationUser (ID: 92928a87-f55f-4a50-a860-4a9141a185cb)
+Details: User 'abdallah' (aa) was reactivated.
+----------------------------------------------------------
+[2026-10-23 02:24:26 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-23 02:23:27 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-23 02:23:11 +00:00] Action: RecordWasteDisposal
+Target: FoodListing (ID: 2004)
+Details: Safe disposal audit logged for expired surplus 'اي حاجه' (22.00 222). Notes: يييييي
+----------------------------------------------------------
+[2026-10-23 02:19:46 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-23 02:15:53 +00:00] Action: ApproveVerification
+Target: ApplicationUser (ID: 7539fba2-f9f2-432a-9061-30cf8cf63664)
+Details: Organization 'NTI' verification approved.
+----------------------------------------------------------
+[2026-10-23 02:04:55 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-23 01:15:59 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-23 01:15:14 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-23 00:49:56 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-23 00:49:33 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-23 00:48:32 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-22 13:54:39 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-22 13:53:03 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-22 13:08:07 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-22 13:07:46 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-22 13:03:08 +00:00] Action: RecordWasteDisposal
+Target: FoodListing (ID: 1002)
+Details: Safe disposal audit logged for expired surplus 'يييييي' (22.00 222). Notes: لالالالالا
+----------------------------------------------------------
+[2026-10-22 12:44:26 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: b8cee188-8887-4e0f-b12c-305c2ee0313b)
+Details: Organization 'Test Kitchen 5990' verification rejected and suspended.
+----------------------------------------------------------
+[2026-10-22 12:38:51 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-22 12:38:26 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 92928a87-f55f-4a50-a860-4a9141a185cb)
+Details: Organization 'aa' verification rejected and suspended.
+----------------------------------------------------------
+[2026-10-22 12:37:43 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-22 12:26:39 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 92928a87-f55f-4a50-a860-4a9141a185cb)
+Details: Organization 'aa' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:26:37 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 92928a87-f55f-4a50-a860-4a9141a185cb)
+Details: Organization 'aa' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:21:44 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-22 12:21:31 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Security and database optimization. Duration: 30 minutes.
+----------------------------------------------------------
+[2026-10-22 12:14:45 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 92928a87-f55f-4a50-a860-4a9141a185cb)
+Details: Organization 'aa' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:12:43 +00:00] Action: WarnProviderFoodWaste
+Target: FoodListing (ID: 1002)
+Details: Official advisory sent to provider for expired surplus 'يييييي' (22.00 222). Notes: برررررررررررررررررر
+----------------------------------------------------------
+[2026-10-22 12:12:27 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 811e5d5a-e32d-4aa8-8f7a-a51c44d25aec)
+Details: Organization 'The Bakery Studio' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:12:26 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 7539fba2-f9f2-432a-9061-30cf8cf63664)
+Details: Organization 'NTI' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:12:15 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 7539fba2-f9f2-432a-9061-30cf8cf63664)
+Details: Organization 'NTI' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:11:48 +00:00] Action: SuspendUser
+Target: ApplicationUser (ID: b926e509-ad4c-45cf-98a9-89d3d3e9b80f)
+Details: User 'abdallah sharaf' (NTI) was suspended.
+----------------------------------------------------------
+[2026-10-22 12:11:39 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 811e5d5a-e32d-4aa8-8f7a-a51c44d25aec)
+Details: Organization 'The Bakery Studio' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:11:37 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 811e5d5a-e32d-4aa8-8f7a-a51c44d25aec)
+Details: Organization 'The Bakery Studio' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:11:36 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 811e5d5a-e32d-4aa8-8f7a-a51c44d25aec)
+Details: Organization 'The Bakery Studio' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:11:32 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 7539fba2-f9f2-432a-9061-30cf8cf63664)
+Details: Organization 'NTI' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:11:30 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 811e5d5a-e32d-4aa8-8f7a-a51c44d25aec)
+Details: Organization 'The Bakery Studio' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:11:29 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 811e5d5a-e32d-4aa8-8f7a-a51c44d25aec)
+Details: Organization 'The Bakery Studio' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:11:28 +00:00] Action: ApproveVerification
+Target: ApplicationUser (ID: e9c4c35e-1b88-4d29-b382-29d60e1a371f)
+Details: Organization 'Al-Noor Refugee Relief' verification approved.
+----------------------------------------------------------
+[2026-10-22 12:11:20 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 7539fba2-f9f2-432a-9061-30cf8cf63664)
+Details: Organization 'NTI' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:11:19 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: e9c4c35e-1b88-4d29-b382-29d60e1a371f)
+Details: Organization 'Al-Noor Refugee Relief' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:11:16 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 811e5d5a-e32d-4aa8-8f7a-a51c44d25aec)
+Details: Organization 'The Bakery Studio' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-22 12:10:31 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-22 12:10:28 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 15-20 دقيقة / 15-20 Minutes.
+----------------------------------------------------------
+[2026-10-22 12:10:07 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 15-20 دقيقة / 15-20 Minutes.
+----------------------------------------------------------
+[2026-10-22 12:09:42 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-22 11:46:15 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-22 11:44:15 +00:00] Action: ApproveVerification
+Target: ApplicationUser (ID: 5e8a22e2-fd86-4246-b4dd-3c0ba09284b8)
+Details: Organization 'NTI' verification approved.
+----------------------------------------------------------
+[2026-10-22 11:44:14 +00:00] Action: ApproveVerification
+Target: ApplicationUser (ID: b926e509-ad4c-45cf-98a9-89d3d3e9b80f)
+Details: Organization 'NTI' verification approved.
+----------------------------------------------------------
+[2026-10-22 11:40:14 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-22 11:40:06 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-22 11:23:38 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-22 11:17:13 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-22 10:53:27 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Database server upgrade & security enhancements. Duration: 30-45 دقيقة / 30-45 Minutes.
+----------------------------------------------------------
+[2026-10-22 10:38:20 +00:00] Action: DisableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform returned to live operation by Platform Administrator.
+----------------------------------------------------------
+[2026-10-22 10:38:19 +00:00] Action: EnableMaintenanceMode
+Target: System (ID: MaintenanceMode)
+Details: Platform locked for maintenance by Platform Administrator. Reason: Core system upgrades and database schema enhancements. Duration: 30 ????? / 30 Minutes.
+----------------------------------------------------------
+[2026-10-21 16:41:40 +00:00] Action: CreateAdmin
+Target: ApplicationUser (ID: 045b21e8-e4cf-4e5b-a8df-8e0f73f308ec)
+Details: Administrator created new admin account for 'Tariq Mahmoud' (tariq.admin@foodbridge.com) - Department/Role: Quality Assurance & Compliance
+----------------------------------------------------------
+[2026-10-21 14:33:08 +00:00] Action: RejectVerification
+Target: ApplicationUser (ID: 811e5d5a-e32d-4aa8-8f7a-a51c44d25aec)
+Details: Organization 'The Bakery Studio' verification revoked/rejected.
+----------------------------------------------------------
+[2026-10-21 14:33:06 +00:00] Action: ApproveVerification
+Target: ApplicationUser (ID: 032cd086-d5af-4095-bd30-23039fbc697a)
+Details: Organization 'Hassan Bakery Studio' verification approved.
+----------------------------------------------------------
+[2026-10-21 12:46:30 +00:00] Action: ApproveVerification
+Target: ApplicationUser (ID: 76525670-81f7-4441-b6f6-4165ea458a14)
+Details: Organization 'Grand Palace Hotel & Banquets' verification approved.
+----------------------------------------------------------

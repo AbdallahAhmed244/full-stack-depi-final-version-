@@ -162,6 +162,7 @@ const i18nDict = {
         charities: 'Charities',
         statusActive: 'Active',
         statusSuspended: 'Suspended',
+        filterLockedUsers: '🔒 Locked Accounts (Password Failures)',
         thUserOrg: 'User & Organization',
         thRoleType: 'Role / Type',
         thVerification: 'Verification',
@@ -177,6 +178,13 @@ const i18nDict = {
         thDetails: 'Details & Reasons',
         thActionBtn: 'View',
         btnRefreshAudit: 'Refresh',
+        auditFilterAll: 'All Records',
+        auditFilterUsers: 'Accounts & Lockouts',
+        auditFilterVerifications: 'Verifications',
+        auditFilterContent: 'Content & Donations',
+        auditFilterWaste: 'Waste & Disposal',
+        auditFilterSystem: 'System & Security',
+        auditLogsCountSuffix: 'logs',
         auditSearchPlaceholder: 'Search by admin, action, target entity, or decision reason...',
         auditModalTitle: 'Audit Record Details',
         impactBadge: 'Real-Time Redistribution Statistics',
@@ -559,6 +567,7 @@ const i18nDict = {
         charities: 'الجمعيات الخيرية',
         statusActive: 'نشط',
         statusSuspended: 'مجمّد',
+        filterLockedUsers: '🔒 الحسابات المقفولة أمنياً (محاولات فاشلة)',
         thUserOrg: 'المستخدم والمؤسسة',
         thRoleType: 'الدور / النوع',
         thVerification: 'حالة التوثيق',
@@ -574,6 +583,13 @@ const i18nDict = {
         thDetails: 'التفاصيل ومبررات القرار',
         thActionBtn: 'معاينة',
         btnRefreshAudit: 'تحديث',
+        auditFilterAll: 'الكل',
+        auditFilterUsers: 'الحسابات والتجميد',
+        auditFilterVerifications: 'التوثيقات',
+        auditFilterContent: 'المحتوى والتبرعات',
+        auditFilterWaste: 'الهدر والإتلاف',
+        auditFilterSystem: 'الأمان والنظام',
+        auditLogsCountSuffix: 'سجل',
         auditSearchPlaceholder: 'ابحث باسم المشرف، الإجراء، الطرف المستهدف، أو مبررات القرار...',
         auditModalTitle: 'تفاصيل سجل التدقيق',
         impactBadge: 'إحصائيات إعادة التوزيع اللحظية',
@@ -925,6 +941,14 @@ function applyLanguage(lang) {
         if (cat === 'all') p.textContent = dict.allCategories;
         else if (cat) p.textContent = formatCategory(cat);
     });
+
+    if (typeof renderAdminAuditLogs === 'function') {
+        const countBadge = document.getElementById('auditLogsCountBadge');
+        if (countBadge && typeof allAdminAuditLogs !== 'undefined') {
+            countBadge.textContent = `${allAdminAuditLogs.length} ${dict.auditLogsCountSuffix || (isAr ? 'سجل' : 'logs')}`;
+        }
+        renderAdminAuditLogs();
+    }
 
     updateAuthUI();
 

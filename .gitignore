@@ -40,3 +40,10 @@ bld/
 ## OS generated
 .DS_Store
 Thumbs.db
+
+## Cloudflare & Temporary Logs
+cloudflared.exe
+config.yml
+*.log
+web_err.log
+web_out.log
