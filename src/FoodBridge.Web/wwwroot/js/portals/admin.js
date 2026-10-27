@@ -402,7 +402,7 @@ async function loadAdminModeration() {
 
 async function removeListingByAdmin(id) {
     const isAr = currentLang === 'ar';
-    const reason = prompt(isAr ? 'يرجى كتابة سبب الحذف الإداري للتبرع:' : 'Specify administrative removal reason (FR8.7):');
+    const reason = prompt(isAr ? 'يرجى كتابة سبب الحذف الإداري للتبرع:' : 'Specify administrative removal reason:');
     if (!reason) return;
     try {
         const res = await fetch(`${API_BASE}/admin/listings/${id}/remove`, {
